@@ -2,10 +2,11 @@ package com.entelect.streams.services;
 
 import com.entelect.streams.models.Car;
 import com.entelect.streams.models.Colour;
+import com.entelect.streams.models.Location;
+import com.entelect.streams.models.Make;
 import com.entelect.streams.utils.DaytonaStock;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,15 +39,11 @@ public class DaytonaSouthAfricaDealerships {
 
 // 2) Practical - Group Exercise
     public List<Car> consolidateHighValueRangeRoverStock() {
-        List<Car> rangeRoverStock = new ArrayList<>();
-
-//        TODO - Convert the array to a parallel stream and apply the appropriate methods to:
-//               1) Filter for all Range Rovers over R3 million
-//               2) Update the Location to JOHANNESBURG with a map function.
-//               3) Use a map function to set the full wash of the vehicle and set
-//               4) Collect the data in a new List.
-
-        return rangeRoverStock;
+        return showroom
+                .parallelStream()
+                .filter(car -> car.getMake().equals(Make.RANGE_ROVER))
+                .peek(car -> car.setLocation(Location.JOHANNESBURG))
+                .peek(valetService::performFullWash).collect(Collectors.toList());
     }
 
 }

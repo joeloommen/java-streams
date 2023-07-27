@@ -2,6 +2,8 @@ package com.entelect.streams.services;
 
 import com.entelect.streams.models.Car;
 import com.entelect.streams.models.Colour;
+import com.entelect.streams.models.Location;
+import com.entelect.streams.models.Make;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DaytonaSouthAfricaDealershipsTest {
@@ -31,6 +34,19 @@ class DaytonaSouthAfricaDealershipsTest {
     }
 
     @Test
-    void consolidateHighValueRangeRoverStock() {
+    void givenListOfCars_whenConsolidateHighValueRangeRoverStock_thenCorrectListReturned() {
+        // Given
+        when(valetService.performFullWash(any())).thenReturn(any());
+
+        // When
+        List<Car> cars = daytonaSouthAfricaDealerships.consolidateHighValueRangeRoverStock();
+
+        // Then
+        for (Car car: cars) {
+            if (car.getMake().equals(Make.RANGE_ROVER)) {
+                assertEquals(car.getLocation(), Location.JOHANNESBURG);
+                verify(valetService, times(1)).performFullWash(car);
+            }
+        }
     }
 }
