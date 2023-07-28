@@ -42,11 +42,10 @@ class DaytonaSouthAfricaDealershipsTest {
         List<Car> cars = daytonaSouthAfricaDealerships.consolidateHighValueRangeRoverStock();
 
         // Then
-        for (Car car: cars) {
-            if (car.getMake().equals(Make.RANGE_ROVER)) {
-                assertEquals(car.getLocation(), Location.JOHANNESBURG);
-                verify(valetService, times(1)).performFullWash(car);
-            }
+        for (Car car : cars) {
+            assertEquals(car.getMake(), Make.RANGE_ROVER);
+            assertEquals(car.getLocation(), Location.JOHANNESBURG);
+            verify(valetService, times(1)).performFullWash(car);
         }
     }
 }
